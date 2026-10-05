@@ -11,9 +11,37 @@ adds the port's address to the cluster's API pools before the server boots.
 It reads everything about the cluster from `captf_cluster_outputs`, the
 [cluster role's exports](https://github.com/captf-io/terraform-openstack-cluster/blob/main/README.md#exports).
 
-Design and evidence: [DESIGN.md](DESIGN.md). Rules every file follows:
-[CONVENTIONS.md](CONVENTIONS.md). Contract:
+Design and evidence: [DESIGN.md](https://github.com/captf-io/terraform-openstack-machine/blob/main/DESIGN.md). Rules every file follows:
+[CONVENTIONS.md](https://github.com/captf-io/terraform-openstack-machine/blob/main/CONVENTIONS.md). Contract:
 <https://captf.io/docs/module-author/contract/v1alpha1/machine.html>.
+
+## Usage
+
+CAPTF runs this module from the module image `ghcr.io/captf-io/openstack-machine`: set the image on
+a `TerraformMachine`'s `spec.source.image` (through a `TerraformMachineTemplate`), and the controller renders every
+input. The module is also published to the Terraform Registry as
+`captf-io/machine/openstack` and can be called directly:
+
+```hcl
+module "machine" {
+  source  = "captf-io/machine/openstack"
+  version = "~> 0.1"
+
+  # The contract inputs the controller would render (captf_contract,
+  # captf_cluster, captf_object, captf_tags, ...; see Inputs), and any
+  # user variables.
+}
+```
+
+Called directly, the module is a CAPTF root module first:
+
+- it configures its own `provider "openstack"` block, so the calling
+  module cannot use `count`, `for_each` or `depends_on` on it, and the
+  provider takes its credentials from the environment (see Identity
+  Secret);
+- its providers are pinned to exact versions (`versions.tf`), which the
+  calling configuration has to accept;
+- you set the `captf_*` inputs yourself.
 
 ## What it creates
 
@@ -245,7 +273,7 @@ reads them.
 
 ## Examples
 
-[`examples/cluster-kubeadm.yaml`](examples/cluster-kubeadm.yaml) has a
+[`examples/cluster-kubeadm.yaml`](https://github.com/captf-io/terraform-openstack-machine/blob/main/examples/cluster-kubeadm.yaml) has a
 control-plane and a worker TerraformMachineTemplate. A worker template:
 
 ```yaml
