@@ -38,8 +38,8 @@ before the server boots. It reads everything about the cluster from
 `captf_cluster_outputs`, the
 [cluster role's exports](https://github.com/captf-io/terraform-openstack-cluster/blob/main/README.md#exports).
 
-The module image is `ghcr.io/captf-io/openstack-machine`, published from
-[openstack-modules](https://github.com/captf-io/openstack-modules). Design and
+The module image is `ghcr.io/captf-io/module-images/openstack-machine`, built and published by
+[module-images](https://github.com/captf-io/module-images) from this repository's releases. Design and
 evidence are in
 [DESIGN.md](https://github.com/captf-io/terraform-openstack-machine/blob/main/DESIGN.md);
 the rules every file follows are in
@@ -48,7 +48,7 @@ the rules every file follows are in
 ## Using it
 
 CAPTF runs this module from the module image
-`ghcr.io/captf-io/openstack-machine`: set the image on a `TerraformMachine`'s
+`ghcr.io/captf-io/module-images/openstack-machine`: set the image on a `TerraformMachine`'s
 `spec.source.image` (through a `TerraformMachineTemplate`), and the controller
 renders every input. The module is also published to the Terraform Registry as
 `captf-io/machine/openstack` and can be called directly:
@@ -297,7 +297,7 @@ reads them.
   clouds do not have (DESIGN.md "Unverified" 5). The volume is deleted
   with the server.
 - No capacity labels on the image (CONVENTIONS.md section 16): there is no
-  default flavor to describe; see the [openstack-modules README](https://github.com/captf-io/openstack-modules#images).
+  default flavor to describe; see the [archived openstack-modules README](https://github.com/captf-io/openstack-modules#images).
 - `captf_cluster` is declared and unused, and `captf_contract` is read
   only by its validation (`tflint-ignore`).
 - No `tfcapi-lint` warning is allowed; `make tfcapi-lint` runs with none.
@@ -316,7 +316,7 @@ spec:
   template:
     spec:
       source:
-        image: ghcr.io/captf-io/openstack-machine:v0.1.0-opentofu
+        image: ghcr.io/captf-io/module-images/openstack-machine:v0.1.0-opentofu
       variables:
         flavor_name: m1.large
         image_name: ubuntu-2404-kube-v1.33.1
@@ -347,8 +347,8 @@ gate. Variables: `RUNTIMES` (default `terraform opentofu`), `ENGINE` and
 | `make verify` | All of the above, in parallel groups |
 | `make clean` | Removes `build/`; keeps `.cache/` and `.tools/` |
 
-Module images are not built here; [openstack-modules](https://github.com/captf-io/openstack-modules) builds them from
-this code.
+Module images are not built here; [module-images](https://github.com/captf-io/module-images) builds them from
+this repository's releases.
 
 <br>
 <p align="center">
