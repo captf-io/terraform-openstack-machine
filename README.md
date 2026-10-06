@@ -297,7 +297,7 @@ reads them.
   clouds do not have (DESIGN.md "Unverified" 5). The volume is deleted
   with the server.
 - No capacity labels on the image (CONVENTIONS.md section 16): there is no
-  default flavor to describe; see the [archived openstack-modules README](https://github.com/captf-io/openstack-modules#images).
+  default flavor to describe; see the [module-images README](https://github.com/captf-io/module-images#images).
 - `captf_cluster` is declared and unused, and `captf_contract` is read
   only by its validation (`tflint-ignore`).
 - No `tfcapi-lint` warning is allowed; `make tfcapi-lint` runs with none.

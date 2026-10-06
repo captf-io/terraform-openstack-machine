@@ -216,11 +216,11 @@ destroy skips.
 The machine image carries no `io.captf.capacity` or `io.captf.node-info`
 label: they describe a default instance shape, and `flavor_name` has no
 default. The image contract makes them optional, and `tfcapi-lint image`
-reports their absence as info. The Dockerfiles' machine stage (in the archived
-[openstack-modules](https://github.com/captf-io/openstack-modules)) has no
-capacity `LABEL`; `MACHINE_CAPACITY` and `MACHINE_ARCH` in its Makefile are
-empty, and its `test/smoke.sh` takes `MACHINE_LABELS=absent` to check the
-labels are absent. An empty label would not do: `tfcapi-lint image` parses
+reports their absence as info.
+[module-images](https://github.com/captf-io/module-images) adds the labels
+only for an image with `capacity` and `arch` in its `images.json`, and
+`openstack-machine` has neither, so its smoke test runs with
+`MACHINE_LABELS=absent` to check the labels are absent. An empty label would not do: `tfcapi-lint image` parses
 a present label and fails on an empty one.
 
 ### 11. Tests
